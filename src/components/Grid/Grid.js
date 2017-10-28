@@ -62,8 +62,8 @@ class Grid extends React.Component {
         //console.log('this is z2', z2);
 
         this.setState((prevState) => ({
-          gridHeight: gridHeight
-          gridWidth: gridWidth
+          gridHeight: gridHeight,
+          gridWidth: gridWidth,
           tiles: z2[0].tiles,
         }));
       })
