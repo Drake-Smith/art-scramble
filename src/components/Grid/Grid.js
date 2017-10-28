@@ -76,6 +76,8 @@ class Grid extends React.Component {
     alert('clicked!')
   }
 
+
+  //loop to assign x and y current position
   determineCurrentPosition(Xcur, Xmax, Ycur, Ymax) {
     for (var y = 0; y < Ymax; y++) {
       for (var x = 0; x < Xmax; x++) {
@@ -90,9 +92,8 @@ class Grid extends React.Component {
   }
  
   render() {
-    //console.log(JSON.stringify(this.state.data.levels, null, 4));
-    //console.log(Array.isArray(this.state.data.levels[0]))
-   // let rows = Math.ceil(this.state.data.levels[0].width / 512);
+
+    //let rows = Math.ceil(this.state.data.levels[0].width / 512);
     //let columns = Math.ceil(this.state.data.levels[0].height / 512);
 
     if (this.state.tiles.length == 0) {
