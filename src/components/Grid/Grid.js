@@ -1,32 +1,70 @@
 import React from 'react';
-import logo from '../../logo.svg';
 import styles from './Grid.scss';
 import axios  from 'axios'
 
-import { API_KEY, API_URL } from '../../config-key.js'
+import Tile from './../Tile/Tile'
+import { API_URL } from '../../config-key.js'
+//import * as helpers                    from './../../helpers.js'
 
 class Grid extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      data: {
-        levels: [
-          {
-            tiles: []
-          }
-        ]
-      }
+      gridHeight: 0,
+      gridWidth: 0,
+      tiles: []
     }
+
+    // tiles: [
+    //   {
+    //     currentPos: {
+    //       x: 0,
+    //       y: 0,
+    //     }
+    //     actualPos: {
+    //       x: 0,
+    //       y: 0,
+    //     }
+    //     url: ''
+    //   }
+    // ]
+
   }
 
   componentDidMount() {
     //retrieve art tiles
     axios.get(API_URL)
       .then((response) => {
-        //console.log(JSON.stringify(response.data, null, 4));
+        
+        //z2 is array of objects filtered down to 1 object in array
+        const z2 = response.data.levels.filter((level) => {
+          return level.name === 'z2'
+        })
+
+        //grab the painting's total height and width
+        const gridHeight = z2[0].height;
+        const gridWidth = z2[0].width;
+      
+
+        // @todo - if i want to track the actual x y current Position myself
+        // const tiles = z2[0].tiles.map((tile) => {
+        //   tile.actualPosition = {
+        //     x: tile.x,
+        //     y: tile.y
+        //   }
+        //   tile.currentPosition = {
+        //     x:
+        //     y:
+        //   }
+        // });
+
+        //console.log('this is z2', z2);
+
         this.setState((prevState) => ({
-          data: response.data
+          gridHeight: gridHeight
+          gridWidth: gridWidth
+          tiles: z2[0].tiles,
         }));
       })
       .catch((err) => {
@@ -34,17 +72,45 @@ class Grid extends React.Component {
       })
   }
 
+  handleSwap(event) {
+    alert('clicked!')
+  }
+
+  determineCurrentPosition(Xcur, Xmax, Ycur, Ymax) {
+    for (var y = 0; y < Ymax; y++) {
+      for (var x = 0; x < Xmax; x++) {
+        //var xPos = x * map.tileSize;
+        //var yPos = y * map.tileSize;
+        console.log('-----------------')
+        console.log('X: ' + x)
+        console.log('Y: ' + y)
+        console.log('-----------------')        
+      }
+    }
+  }
+ 
   render() {
     //console.log(JSON.stringify(this.state.data.levels, null, 4));
     //console.log(Array.isArray(this.state.data.levels[0]))
+   // let rows = Math.ceil(this.state.data.levels[0].width / 512);
+    //let columns = Math.ceil(this.state.data.levels[0].height / 512);
 
-    const tiles = this.state.data.levels[0].tiles.map((tile) => {
-      return <img style={{'margin': '5px'}} src={tile.url} />
-    });
-    //console.log(tiles)
-    return (
-      <div className={styles.gridContainer}>{tiles}</div>
-    );
+    if (this.state.tiles.length == 0) {
+      return null;
+    } else {
+        const tiles = this.state.tiles.map((tile) => {
+          return <Tile url={tile.url}
+             
+                  />
+                  //onClick={this.handleSwap}
+                  // actualPos={actualPos}
+                  // currentPos={currentPos}
+          });
+   
+        return <div className={styles.gridContainer}>
+                {tiles}
+               </div>
+    }
   }
 }
 
