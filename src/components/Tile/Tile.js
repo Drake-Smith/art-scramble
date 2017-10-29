@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './Tile.scss';
 
+
 class Tile extends React.Component {
   constructor(props) {
     super(props)
@@ -14,7 +15,7 @@ class Tile extends React.Component {
   //    </div>
   render() {
     return (
-      <img className={styles.tileImg} src={this.props.url} onClick={this.props.onClick} onLoad={this.handleImgResize}
+      <img className={styles.tileImg} src={this.props.url} onClick={this.props.onClick}
       />
     )
   }
