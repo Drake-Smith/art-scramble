@@ -37,34 +37,62 @@ class Grid extends React.Component {
     axios.get(API_URL)
       .then((response) => {
         
-        //z2 is array of objects filtered down to 1 object in array
-        const z2 = response.data.levels.filter((level) => {
+        //identify and filter response object to just zoom level 2 array
+        //returns an array with 1 obj inside
+        const collection = response.data.levels.filter((level) => {
           return level.name === 'z2'
         })
+        
+        //create actualPosition key, move the x and y coordinate there
+        //returns Array of Objects
+        let tileMapping = collection[0].tiles.map((tile) => ({
+          actualPosition: {
+            x: tile.x,
+            y: tile.y
+          },
+          url: tile.url
+        }));
 
         //grab the painting's total height and width
-        const gridHeight = z2[0].height;
-        const gridWidth = z2[0].width;
-      
+        const gridHeight = collection[0].height;
+        const gridWidth = collection[0].width;
+        
+        //determine number of rows and columns 
+        const rowsX = Math.ceil(gridWidth / 512);
+        const columnsY = Math.ceil(gridHeight / 512);
 
-        // @todo - if i want to track the actual x y current Position myself
-        // const tiles = z2[0].tiles.map((tile) => {
-        //   tile.actualPosition = {
-        //     x: tile.x,
-        //     y: tile.y
-        //   }
-        //   tile.currentPosition = {
-        //     x:
-        //     y:
-        //   }
-        // });
+        //console.log('HOW MANY ROWS?', rowsX)
+        //console.log('HOW MANY COLUMNS?', columnsY)
+        
+        //create new array of objects and assign the tile's current x and y position
+        //this will later merge with our collection array
+        let modifiedTiles = [];
+        //add the current position of tile 
+        for (var y = 0; y < columnsY; y++) {
+          for (var x = 0; x < rowsX; x++) {
+            let current = {
+              currentPosition: {
+                x: x,
+                y: y
+              }
+            }
+            modifiedTiles.push(current);      
+          }
+        }
 
-        //console.log('this is z2', z2);
+        //console.log(JSON.stringify(modifiedTiles, null, 4))
+        let finalMergedCollection = [];
+        for (var i = 0; i < tileMapping.length; i++) {
+            let combined = Object.assign(tileMapping[i], modifiedTiles[i])
+            finalMergedCollection.push(combined)
+        }
+        console.log('THE FINAL OBJ')
+        console.log(JSON.stringify(finalMergedCollection, null, 4))
 
         this.setState((prevState) => ({
           gridHeight: gridHeight,
           gridWidth: gridWidth,
-          tiles: z2[0].tiles,
+          tiles: finalMergedCollection
         }));
       })
       .catch((err) => {
@@ -111,7 +139,7 @@ class Grid extends React.Component {
         //this.setGridDimension(gridHeight, gridWidth )
         const tiles = this.state.tiles.map((tile) => {
           return <Tile url={tile.url}
-             
+                       key={tile.url}
                   />
                   //onClick={this.handleSwap}
                   // actualPos={actualPos}

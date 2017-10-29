@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './Tile.scss';
 
+
 class Tile extends React.Component {
   constructor(props) {
     super(props)
