@@ -18,3 +18,8 @@ export const swapOrderInArray = (array, index1, index2) => {
   array[index2] = temp;
   return array;
 }
+
+export const swapValueAtIndex = (arr, newValue, index) => {
+  arr[index] = newValue;
+  return arr;
+}

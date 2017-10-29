@@ -21,6 +21,7 @@ class Grid extends React.Component {
 
     this.checkBoardTiles = this.checkBoardTiles.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
+    this.swapTiles = this.swapTiles.bind(this);
   }
 
   componentDidMount() {
@@ -128,16 +129,41 @@ class Grid extends React.Component {
 
   swapTiles() {
     //helpers.swapKeyValues(tile1, tile2, key);
-    alert('this happened!');
+    
 
+    let selected = this.state.selectedTiles;
+    let obj1 = selected[0];
+    let obj2 = selected[1];
+    helpers.swapKeyValues(obj1, obj2, 'currentPosition');
+    helpers.swapKeyValues(obj1, obj2, 'url')
+    //console.log(obj1)
+    //console.log(obj2)
+
+
+    //swap order in tiles array
+    let tiles = this.state.tiles;
+    let obj1Index = tiles.findIndex((tile) => {
+      return tile.url === obj1.url
+    })
+    //alert(obj1Index)
+    let obj2Index = tiles.findIndex((tile) => {
+      return tile.url === obj2.url
+    })
+    let swap1 = helpers.swapValueAtIndex(tiles, obj1, obj1Index);
+    let swap2 = helpers.swapValueAtIndex(swap1, obj2, obj2Index);
+
+    //let swappedArr = helpers.swapOrderInArray(tiles, obj1Index, obj2Index);
+    console.log(JSON.stringify(swap2, null, 4))
+    //re-render
     this.setState((prevState) => ({
-      selectedTiles: []
+      selectedTiles: [],
+      tiles: swap2
     }));
   }
 
   handleSelect(event) {
     event.stopPropagation();
-    console.log(event.target.src) //the url
+    //console.log(event.target.src) //the url
 
     let tiles = this.state.tiles;
       let target = tiles.filter((tile) => {
