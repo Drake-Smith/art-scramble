@@ -16,10 +16,10 @@ class SideInfoPanel extends React.Component {
           <p className={styles.infoLine}>{this.props.info.date}</p>
         </div>
         
-        <button className={styles.nextPaintingBtn}>
+        <button className={styles.nextPaintingBtn} onClick={this.props.showNextPainting}>
           Next Painting
         </button>
-        
+
         <div className={styles.winnerBox}>
           {this.props.winner && <h1 className={styles.winnerMsg}>WINNER!</h1>}
         </div>

@@ -5,7 +5,7 @@ import axios  from 'axios'
 
 import Tile from './../Tile/Tile';
 import SideInfoPanel from './../SideInfoPanel/SideInfoPanel';
-import { GET_TILES_URL, GET_INFO_URL } from '../../config-key.js'
+import { GET_TILES_URL, GET_INFO_URL, BASE_URL, GET_NEXT_PAINTING, COLLECTION } from '../../config-key.js'
 import * as helpers                    from './../../helpers.js'
 
 class Grid extends React.Component {
@@ -26,10 +26,12 @@ class Grid extends React.Component {
     this.checkBoardTiles = this.checkBoardTiles.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.swapTiles = this.swapTiles.bind(this);
-    this.grabDisplayInfo = this.grabDisplayInfo.bind(this);
+    this.grabPaintingInfo = this.grabPaintingInfo.bind(this);
+    this.showNextPainting = this.showNextPainting.bind(this);
   }
 
   componentDidMount() {
+    this.grabPaintingInfo();
     //retrieve art tiles
     // axios.get(GET_INFO_URL)
     //   .then((response) => {
@@ -38,8 +40,178 @@ class Grid extends React.Component {
     //   .catch((err) => {
     //     console.log('There was an error retrieving paining info.', err);
     //   })
-    const getTileInfo = () => axios.get(GET_TILES_URL);
-    const getPaintingInfo = () => axios.get(GET_INFO_URL);
+    // const getTileInfo = () => axios.get(GET_TILES_URL);
+    // const getPaintingInfo = () => axios.get(GET_INFO_URL);
+
+    // axios.all([getPaintingInfo(), getTileInfo()])
+    //   .then(axios.spread((paintingResponse, response) => {
+
+    //     //PAINTING INFO
+    //     let infoObj = {};
+    //     infoObj.title = paintingResponse.data.artObject.title;
+    //     infoObj.painter = paintingResponse.data.artObject.principalMakers[0].name;
+    //     infoObj.date = paintingResponse.data.artObject.dating.presentingDate;
+    //     //console.log('paintingResponse', paintingResponse.data)
+
+    //     //PAINTING TILES
+    //      //identify and filter response object to just zoom level 2 array
+    //     //returns an array with 1 obj inside
+    //     const collection = response.data.levels.filter((level) => {
+    //       //return level.name === 'z2'
+    //       return level.tiles.length <= 6 && level.tiles.length >= 4;
+    //     })
+        
+    //     //create actualPosition key, move the x and y coordinate there
+    //     //returns Array of Objects
+    //     let tileMapping = collection[0].tiles.map((tile) => ({
+    //       actualPosition: {
+    //         x: tile.x,
+    //         y: tile.y
+    //       },
+    //       url: tile.url
+    //     }));
+
+    //     //grab the painting's total height and width
+    //     const gridHeight = collection[0].height;
+    //     const gridWidth = collection[0].width;
+        
+    //     //determine number of rows and columns 
+    //     const rowsX = Math.ceil(gridWidth / 512);
+    //     const columnsY = Math.ceil(gridHeight / 512);
+
+    //     //console.log('HOW MANY ROWS?', rowsX)
+    //     //console.log('HOW MANY COLUMNS?', columnsY)
+        
+    //     //create new array of objects and assign the tile's current x and y position
+    //     //this will later merge with our collection array
+    //     let modifiedTiles = [];
+    //     //add the current position of tile 
+    //     for (var y = 0; y < columnsY; y++) {
+    //       for (var x = 0; x < rowsX; x++) {
+    //         let current = {
+    //           currentPosition: {
+    //             x: x,
+    //             y: y
+    //           }
+    //         }
+    //         modifiedTiles.push(current);      
+    //       }
+    //     }
+
+    //     //console.log(JSON.stringify(modifiedTiles, null, 4))
+    //     let finalMergedCollection = [];
+    //     for (var i = 0; i < tileMapping.length; i++) {
+    //         let combined = Object.assign(tileMapping[i], modifiedTiles[i])
+    //         finalMergedCollection.push(combined)
+    //     }
+    //     //console.log('THE FINAL OBJ')
+    //     //console.log(JSON.stringify(finalMergedCollection, null, 4))
+
+    //     // this.setState((prevState) => ({
+    //     //   gridHeight: gridHeight,
+    //     //   gridWidth: gridWidth,
+    //     //   rows: rowsX,
+    //     //   columns: columnsY,
+    //     //   tiles: finalMergedCollection
+    //     // }));
+    //     this.setState({
+    //       gridHeight: gridHeight,
+    //       gridWidth: gridWidth,
+    //       rows: rowsX,
+    //       columns: columnsY,
+    //       tiles: finalMergedCollection,
+    //       paintingInfo: infoObj
+    //     }, this.checkBoardTiles);
+    //   }))
+    //   .catch((err) => {
+    //     console.log('There was an error retrieving data.', err);
+    //   })
+
+    // axios.get(GET_TILES_URL)
+    //   .then((response) => {
+        
+    //     //identify and filter response object to just zoom level 2 array
+    //     //returns an array with 1 obj inside
+    //     const collection = response.data.levels.filter((level) => {
+    //       //return level.name === 'z2'
+    //       return level.tiles.length <= 6 && level.tiles.length >= 4;
+    //     })
+        
+    //     //create actualPosition key, move the x and y coordinate there
+    //     //returns Array of Objects
+    //     let tileMapping = collection[0].tiles.map((tile) => ({
+    //       actualPosition: {
+    //         x: tile.x,
+    //         y: tile.y
+    //       },
+    //       url: tile.url
+    //     }));
+
+    //     //grab the painting's total height and width
+    //     const gridHeight = collection[0].height;
+    //     const gridWidth = collection[0].width;
+        
+    //     //determine number of rows and columns 
+    //     const rowsX = Math.ceil(gridWidth / 512);
+    //     const columnsY = Math.ceil(gridHeight / 512);
+
+    //     //console.log('HOW MANY ROWS?', rowsX)
+    //     //console.log('HOW MANY COLUMNS?', columnsY)
+        
+    //     //create new array of objects and assign the tile's current x and y position
+    //     //this will later merge with our collection array
+    //     let modifiedTiles = [];
+    //     //add the current position of tile 
+    //     for (var y = 0; y < columnsY; y++) {
+    //       for (var x = 0; x < rowsX; x++) {
+    //         let current = {
+    //           currentPosition: {
+    //             x: x,
+    //             y: y
+    //           }
+    //         }
+    //         modifiedTiles.push(current);      
+    //       }
+    //     }
+
+    //     //console.log(JSON.stringify(modifiedTiles, null, 4))
+    //     let finalMergedCollection = [];
+    //     for (var i = 0; i < tileMapping.length; i++) {
+    //         let combined = Object.assign(tileMapping[i], modifiedTiles[i])
+    //         finalMergedCollection.push(combined)
+    //     }
+    //     //console.log('THE FINAL OBJ')
+    //     //console.log(JSON.stringify(finalMergedCollection, null, 4))
+
+    //     // this.setState((prevState) => ({
+    //     //   gridHeight: gridHeight,
+    //     //   gridWidth: gridWidth,
+    //     //   rows: rowsX,
+    //     //   columns: columnsY,
+    //     //   tiles: finalMergedCollection
+    //     // }));
+    //     this.setState({
+    //       gridHeight: gridHeight,
+    //       gridWidth: gridWidth,
+    //       rows: rowsX,
+    //       columns: columnsY,
+    //       tiles: finalMergedCollection
+    //     }, this.checkBoardTiles);
+    //   })
+    //   .catch((err) => {
+    //     console.log('There was an error retrieving the data', err);
+    //   })
+  }
+
+  grabPaintingInfo() {
+
+    const chooser = GET_NEXT_PAINTING(COLLECTION);
+    const paintingKey = chooser();
+    const getInfoURL = BASE_URL + paintingKey + GET_INFO_URL;
+    const getTilesURL = BASE_URL + paintingKey + GET_TILES_URL;
+
+    const getTileInfo = () => axios.get(getTilesURL);
+    const getPaintingInfo = () => axios.get(getInfoURL);
 
     axios.all([getPaintingInfo(), getTileInfo()])
       .then(axios.spread((paintingResponse, response) => {
@@ -124,85 +296,6 @@ class Grid extends React.Component {
       .catch((err) => {
         console.log('There was an error retrieving data.', err);
       })
-
-    // axios.get(GET_TILES_URL)
-    //   .then((response) => {
-        
-    //     //identify and filter response object to just zoom level 2 array
-    //     //returns an array with 1 obj inside
-    //     const collection = response.data.levels.filter((level) => {
-    //       //return level.name === 'z2'
-    //       return level.tiles.length <= 6 && level.tiles.length >= 4;
-    //     })
-        
-    //     //create actualPosition key, move the x and y coordinate there
-    //     //returns Array of Objects
-    //     let tileMapping = collection[0].tiles.map((tile) => ({
-    //       actualPosition: {
-    //         x: tile.x,
-    //         y: tile.y
-    //       },
-    //       url: tile.url
-    //     }));
-
-    //     //grab the painting's total height and width
-    //     const gridHeight = collection[0].height;
-    //     const gridWidth = collection[0].width;
-        
-    //     //determine number of rows and columns 
-    //     const rowsX = Math.ceil(gridWidth / 512);
-    //     const columnsY = Math.ceil(gridHeight / 512);
-
-    //     //console.log('HOW MANY ROWS?', rowsX)
-    //     //console.log('HOW MANY COLUMNS?', columnsY)
-        
-    //     //create new array of objects and assign the tile's current x and y position
-    //     //this will later merge with our collection array
-    //     let modifiedTiles = [];
-    //     //add the current position of tile 
-    //     for (var y = 0; y < columnsY; y++) {
-    //       for (var x = 0; x < rowsX; x++) {
-    //         let current = {
-    //           currentPosition: {
-    //             x: x,
-    //             y: y
-    //           }
-    //         }
-    //         modifiedTiles.push(current);      
-    //       }
-    //     }
-
-    //     //console.log(JSON.stringify(modifiedTiles, null, 4))
-    //     let finalMergedCollection = [];
-    //     for (var i = 0; i < tileMapping.length; i++) {
-    //         let combined = Object.assign(tileMapping[i], modifiedTiles[i])
-    //         finalMergedCollection.push(combined)
-    //     }
-    //     //console.log('THE FINAL OBJ')
-    //     //console.log(JSON.stringify(finalMergedCollection, null, 4))
-
-    //     // this.setState((prevState) => ({
-    //     //   gridHeight: gridHeight,
-    //     //   gridWidth: gridWidth,
-    //     //   rows: rowsX,
-    //     //   columns: columnsY,
-    //     //   tiles: finalMergedCollection
-    //     // }));
-    //     this.setState({
-    //       gridHeight: gridHeight,
-    //       gridWidth: gridWidth,
-    //       rows: rowsX,
-    //       columns: columnsY,
-    //       tiles: finalMergedCollection
-    //     }, this.checkBoardTiles);
-    //   })
-    //   .catch((err) => {
-    //     console.log('There was an error retrieving the data', err);
-    //   })
-  }
-
-  grabDisplayInfo() {
-
   }
 
   checkBoardTiles() {
@@ -323,6 +416,29 @@ class Grid extends React.Component {
     }
   }
 
+  showNextPainting(event) {
+    event.stopPropagation();
+    //if (this.state.winner) {
+      this.setState({
+        gridHeight: 0,
+        gridWidth: 0,
+        rows: 0,
+        columns: 0,
+        selectedTiles: [],
+        tiles: [],
+        paintingInfo: {},
+        winner: false
+      }, this.grabPaintingInfo())
+      
+    // } else {
+    //   this.grabPaintingInfo();
+    // }
+    
+
+
+
+  }
+
   render() {
 
     //let rows = Math.ceil(this.state.data.levels[0].width / 512);
@@ -361,7 +477,7 @@ class Grid extends React.Component {
             <div className={styles.gridContainer} style={{height: gridHeight, width: gridWidth}}>
               {tiles}
             </div>
-            <SideInfoPanel info={this.state.paintingInfo} winner={this.state.winner} />
+            <SideInfoPanel info={this.state.paintingInfo} winner={this.state.winner} showNextPainting={this.showNextPainting} />
           </div>
         )
     }
