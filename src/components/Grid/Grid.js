@@ -13,9 +13,12 @@ class Grid extends React.Component {
     this.state = {
       gridHeight: 0,
       gridWidth: 0,
+      rows: 0,
+      columns: 0,
       tiles: []
     }
 
+    this.checkBoardTiles = this.checkBoardTiles.bind(this);
     // tiles: [
     //   {
     //     currentPos: {
@@ -89,11 +92,20 @@ class Grid extends React.Component {
         console.log('THE FINAL OBJ')
         console.log(JSON.stringify(finalMergedCollection, null, 4))
 
-        this.setState((prevState) => ({
+        // this.setState((prevState) => ({
+        //   gridHeight: gridHeight,
+        //   gridWidth: gridWidth,
+        //   rows: rowsX,
+        //   columns: columnsY,
+        //   tiles: finalMergedCollection
+        // }));
+        this.setState({
           gridHeight: gridHeight,
           gridWidth: gridWidth,
+          rows: rowsX,
+          columns: columnsY,
           tiles: finalMergedCollection
-        }));
+        }, this.checkBoardTiles);
       })
       .catch((err) => {
         console.log('There was an error retrieving the data', err);
@@ -104,6 +116,27 @@ class Grid extends React.Component {
     alert('clicked!')
   }
 
+  checkBoardTiles() {
+    const columnsY = this.state.columns;
+    const rowsX = this.state.rows;
+    const tiles = this.state.tiles;
+
+    let flag = true;
+    for (var y = 0; y < columnsY; y++) {
+      for (var x = 0; x < rowsX; x++) {
+        //check current Board against actual board
+        if (!tiles[x].actualPosition.x == x || !tiles[y].actualPosition.y == y) {
+          flag = false;
+        }
+      }
+    }
+    if (flag) {
+      alert('WINNER!')
+    } else {
+      alert('LOSER!')
+    }
+    
+  }
 
   //loop to assign x and y current position
   determineCurrentPosition(Xcur, Xmax, Ycur, Ymax) {
@@ -132,7 +165,7 @@ class Grid extends React.Component {
     //let columns = Math.ceil(this.state.data.levels[0].height / 512);
 
     if (this.state.tiles.length == 0) {
-      return null;
+      return <h1>LOADING</h1>;
     } else {
         const gridHeight = this.state.gridHeight / 2;
         const gridWidth = this.state.gridWidth / 2;
