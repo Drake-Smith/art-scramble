@@ -11,7 +11,7 @@ import { GET_TILES_URL,
          GET_INFO_URL, 
          BASE_URL, 
          GET_NEXT_PAINTING, 
-         COLLECTION } from '../../config-key.js'
+         COLLECTION } from './../../config-key.js'
 import * as helpers   from './../../helpers.js'
 
 class Grid extends React.Component {
