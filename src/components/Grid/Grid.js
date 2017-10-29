@@ -122,12 +122,17 @@ class Grid extends React.Component {
     const tiles = this.state.tiles;
 
     let flag = true;
+    let counter = 0;
     for (var y = 0; y < columnsY; y++) {
       for (var x = 0; x < rowsX; x++) {
         //check current Board against actual board
-        if (!tiles[x].actualPosition.x == x || !tiles[y].actualPosition.y == y) {
+        if (tiles[counter].currentPosition.x != tiles[counter].actualPosition.x || tiles[counter].currentPosition.y != tiles[counter].actualPosition.y) {
           flag = false;
+          //alert('LOSER1')
         }
+        //alert(tiles[counter].currentPosition.x)
+        //alert(tiles[counter].currentPosition.y)
+        counter++;
       }
     }
     if (flag) {
