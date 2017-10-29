@@ -78,8 +78,8 @@ class Grid extends React.Component {
             let combined = Object.assign(tileMapping[i], modifiedTiles[i])
             finalMergedCollection.push(combined)
         }
-        console.log('THE FINAL OBJ')
-        console.log(JSON.stringify(finalMergedCollection, null, 4))
+        //console.log('THE FINAL OBJ')
+        //console.log(JSON.stringify(finalMergedCollection, null, 4))
 
         // this.setState((prevState) => ({
         //   gridHeight: gridHeight,
@@ -123,7 +123,7 @@ class Grid extends React.Component {
     if (flag) {
       alert('WINNER!')
     } else {
-      alert('LOSER!')
+      //alert('LOSER!')
     }
   }
 
@@ -134,11 +134,9 @@ class Grid extends React.Component {
     let selected = this.state.selectedTiles;
     let obj1 = selected[0];
     let obj2 = selected[1];
-    helpers.swapKeyValues(obj1, obj2, 'currentPosition');
-    helpers.swapKeyValues(obj1, obj2, 'url')
+    
     //console.log(obj1)
     //console.log(obj2)
-
 
     //swap order in tiles array
     let tiles = this.state.tiles;
@@ -149,16 +147,27 @@ class Grid extends React.Component {
     let obj2Index = tiles.findIndex((tile) => {
       return tile.url === obj2.url
     })
+
+    //helpers.swapKeyValues(obj1, obj2, 'currentPosition');
+    helpers.swapKeyValues(obj1, obj2, 'url')
+    helpers.swapKeyValues(obj1, obj2, 'actualPosition');
+    console.log('obj1', obj1)
+    console.log('obj2', obj2)
+
     let swap1 = helpers.swapValueAtIndex(tiles, obj1, obj1Index);
-    let swap2 = helpers.swapValueAtIndex(swap1, obj2, obj2Index);
+    helpers.swapValueAtIndex(swap1, obj2, obj2Index);
 
     //let swappedArr = helpers.swapOrderInArray(tiles, obj1Index, obj2Index);
-    console.log(JSON.stringify(swap2, null, 4))
+    //console.log(JSON.stringify(swap1, null, 4))
     //re-render
-    this.setState((prevState) => ({
+    // this.setState((prevState) => ({
+    //   selectedTiles: [],
+    //   tiles: swap2
+    // }));
+    this.setState({
       selectedTiles: [],
-      tiles: swap2
-    }));
+      tiles: swap1
+    }, this.checkBoardTiles);
   }
 
   handleSelect(event) {
@@ -196,7 +205,7 @@ class Grid extends React.Component {
 
     //let rows = Math.ceil(this.state.data.levels[0].width / 512);
     //let columns = Math.ceil(this.state.data.levels[0].height / 512);
-
+    //console.log(JSON.stringify(this.state.tiles, null, 4))
     if (this.state.tiles.length == 0) {
       return <h1>LOADING</h1>;
     } else {
