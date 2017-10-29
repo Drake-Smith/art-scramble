@@ -4,7 +4,7 @@ import axios  from 'axios'
 
 import Tile from './../Tile/Tile'
 import { API_URL } from '../../config-key.js'
-//import * as helpers                    from './../../helpers.js'
+import * as helpers                    from './../../helpers.js'
 
 class Grid extends React.Component {
   constructor(props) {
@@ -15,24 +15,12 @@ class Grid extends React.Component {
       gridWidth: 0,
       rows: 0,
       columns: 0,
+      selectedTiles: [],
       tiles: []
     }
 
     this.checkBoardTiles = this.checkBoardTiles.bind(this);
-    // tiles: [
-    //   {
-    //     currentPos: {
-    //       x: 0,
-    //       y: 0,
-    //     }
-    //     actualPos: {
-    //       x: 0,
-    //       y: 0,
-    //     }
-    //     url: ''
-    //   }
-    // ]
-
+    this.handleSelect = this.handleSelect.bind(this);
   }
 
   componentDidMount() {
@@ -112,10 +100,6 @@ class Grid extends React.Component {
       })
   }
 
-  handleSwap(event) {
-    alert('clicked!')
-  }
-
   checkBoardTiles() {
     const columnsY = this.state.columns;
     const rowsX = this.state.rows;
@@ -140,30 +124,48 @@ class Grid extends React.Component {
     } else {
       alert('LOSER!')
     }
-    
   }
 
-  //loop to assign x and y current position
-  determineCurrentPosition(Xcur, Xmax, Ycur, Ymax) {
-    for (var y = 0; y < Ymax; y++) {
-      for (var x = 0; x < Xmax; x++) {
-        //var xPos = x * map.tileSize;
-        //var yPos = y * map.tileSize;
-        console.log('-----------------')
-        console.log('X: ' + x)
-        console.log('Y: ' + y)
-        console.log('-----------------')        
+  swapTiles() {
+    //helpers.swapKeyValues(tile1, tile2, key);
+    alert('this happened!');
+
+    this.setState((prevState) => ({
+      selectedTiles: []
+    }));
+  }
+
+  handleSelect(event) {
+    event.stopPropagation();
+    console.log(event.target.src) //the url
+
+    let tiles = this.state.tiles;
+      let target = tiles.filter((tile) => {
+        return tile.url == event.target.src;
+      });
+      //target[0] for the object
+      let arr = this.state.selectedTiles;
+
+    if (this.state.selectedTiles.length == 0) {
+      arr.push(target[0]);
+      this.setState((prevState) => ({
+        selectedTiles: arr
+      }));
+    } else if (this.state.selectedTiles.length == 1) {
+      if (arr[0].url === event.target.src) {
+        arr.pop();
+        this.setState((prevState) => ({
+          selectedTiles: arr
+        }));
+      } else {
+        arr.push(target[0]);
+        this.setState({
+          selectedTiles: arr
+        }, this.swapTiles);
       }
     }
   }
 
-  setGridDimension(height, width) {
-    let elem = document.querySelector(styles.gridContainer);
-    console.log('This is element', elem)
-    elem.height = height;
-    elem.width = width;
-  }
- 
   render() {
 
     //let rows = Math.ceil(this.state.data.levels[0].width / 512);
@@ -174,10 +176,12 @@ class Grid extends React.Component {
     } else {
         const gridHeight = this.state.gridHeight / 2;
         const gridWidth = this.state.gridWidth / 2;
-        //this.setGridDimension(gridHeight, gridWidth )
+
         const tiles = this.state.tiles.map((tile) => {
           return <Tile url={tile.url}
                        key={tile.url}
+                       onClick={this.handleSelect}
+
                   />
                   //onClick={this.handleSwap}
                   // actualPos={actualPos}
