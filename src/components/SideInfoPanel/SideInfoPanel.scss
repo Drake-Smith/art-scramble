@@ -1,0 +1,42 @@
+.panelContainer {
+    width: 300px;
+    height: 300px;
+    margin: 40px 25px;
+    float: right;
+    padding: 40px 20px;
+    background: #272728;
+}
+.panelContent {
+
+}
+.paintTitle {
+  color: white;
+  text-align: center;
+  font-size: 20px;
+}
+.infoLine {
+  text-align: center;
+  color: white;
+  font-size: 14px;
+}
+
+.winnerBox {
+  height: 50px;
+  padding-top: 60px;
+  
+  .winnerMsg {
+    color: white;
+    text-align: center;
+    font-size: 25px;
+  }
+}
+
+.nextPaintingBtn {
+    margin-top: 40px;
+    height: 40px;
+    width: 200px;
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 14px;
+}

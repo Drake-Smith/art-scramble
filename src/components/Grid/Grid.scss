@@ -4,8 +4,10 @@
   background: #e55454;
 }
 .gridContainer {
-  margin: 20px auto;
+  //margin: 20px auto;
   padding: 40px 20px;
+  margin: 0;
+  display: inline-block;
 }
 .loadingMsg {
   text-align: center;
