@@ -90,6 +90,13 @@ class Grid extends React.Component {
       }
     }
   }
+
+  setGridDimension(height, width) {
+    let elem = document.querySelector(styles.gridContainer);
+    console.log('This is element', elem)
+    elem.height = height;
+    elem.width = width;
+  }
  
   render() {
 
@@ -99,6 +106,9 @@ class Grid extends React.Component {
     if (this.state.tiles.length == 0) {
       return null;
     } else {
+        const gridHeight = this.state.gridHeight / 2;
+        const gridWidth = this.state.gridWidth / 2;
+        //this.setGridDimension(gridHeight, gridWidth )
         const tiles = this.state.tiles.map((tile) => {
           return <Tile url={tile.url}
              
@@ -107,8 +117,7 @@ class Grid extends React.Component {
                   // actualPos={actualPos}
                   // currentPos={currentPos}
           });
-   
-        return <div className={styles.gridContainer}>
+        return <div className={styles.gridContainer} style={{height: gridHeight, width: gridWidth}}>
                 {tiles}
                </div>
     }
