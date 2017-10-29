@@ -1,9 +1,10 @@
 import React from 'react';
 import styles from './Grid.scss';
+import styles2 from './../Tile/Tile.scss';
 import axios  from 'axios'
 
 import Tile from './../Tile/Tile'
-import { API_URL } from '../../config-key.js'
+import { GET_TILES_URL } from '../../config-key.js'
 import * as helpers                    from './../../helpers.js'
 
 class Grid extends React.Component {
@@ -26,13 +27,14 @@ class Grid extends React.Component {
 
   componentDidMount() {
     //retrieve art tiles
-    axios.get(API_URL)
+    axios.get(GET_TILES_URL)
       .then((response) => {
         
         //identify and filter response object to just zoom level 2 array
         //returns an array with 1 obj inside
         const collection = response.data.levels.filter((level) => {
-          return level.name === 'z2'
+          //return level.name === 'z2'
+          return level.tiles.length <= 6 && level.tiles.length >= 4;
         })
         
         //create actualPosition key, move the x and y coordinate there
@@ -129,7 +131,14 @@ class Grid extends React.Component {
 
   swapTiles() {
     //helpers.swapKeyValues(tile1, tile2, key);
-    
+
+    // set opacity of all tiles back to 1
+    let elements = document.getElementsByClassName(styles2.tileImg);
+    console.log('ELEMENTS', elements)
+    for (let i = 0; i < elements.length; i++) {
+      elements[i].style.opacity = '1';
+      elements[i].style.boxShadow = 'none';
+    }
 
     let selected = this.state.selectedTiles;
     let obj1 = selected[0];
@@ -164,6 +173,8 @@ class Grid extends React.Component {
     //   selectedTiles: [],
     //   tiles: swap2
     // }));
+    
+
     this.setState({
       selectedTiles: [],
       tiles: swap1
@@ -183,17 +194,23 @@ class Grid extends React.Component {
 
     if (this.state.selectedTiles.length == 0) {
       arr.push(target[0]);
+      event.target.style.opacity = '0.5';
+      event.target.style.boxShadow = '10px 10px 5px 0px rgba(0,0,0,0.75)';
       this.setState((prevState) => ({
         selectedTiles: arr
       }));
     } else if (this.state.selectedTiles.length == 1) {
       if (arr[0].url === event.target.src) {
         arr.pop();
+        event.target.style.opacity = '1';
+        event.target.style.boxShadow = 'none';
         this.setState((prevState) => ({
           selectedTiles: arr
         }));
       } else {
         arr.push(target[0]);
+        event.target.style.opacity = '0.5';
+        event.target.style.boxShadow = '10px 10px 5px 0px rgba(0,0,0,0.75)';
         this.setState({
           selectedTiles: arr
         }, this.swapTiles);
@@ -207,24 +224,40 @@ class Grid extends React.Component {
     //let columns = Math.ceil(this.state.data.levels[0].height / 512);
     //console.log(JSON.stringify(this.state.tiles, null, 4))
     if (this.state.tiles.length == 0) {
-      return <h1>LOADING</h1>;
+      return (
+        <div className={styles.pageBody}>
+          <h1 className={styles.loadingMsg}>Loading...</h1>
+        </div>
+      )
     } else {
+        //const gridHeight = this.state.gridHeight / this.state.columns;
+        //const gridWidth = this.state.gridWidth / this.state.rows;
         const gridHeight = this.state.gridHeight / 2;
         const gridWidth = this.state.gridWidth / 2;
+
+        const tileHeight = gridHeight / this.state.columns;
+        const tileWidth = gridWidth / this.state.rows;
+
 
         const tiles = this.state.tiles.map((tile) => {
           return <Tile url={tile.url}
                        key={tile.url}
                        onClick={this.handleSelect}
+                       height={tileHeight}
+                       width={tileWidth}
 
                   />
                   //onClick={this.handleSwap}
                   // actualPos={actualPos}
                   // currentPos={currentPos}
           });
-        return <div className={styles.gridContainer} style={{height: gridHeight, width: gridWidth}}>
-                {tiles}
-               </div>
+        return (
+          <div className={styles.pageBody}>
+            <div className={styles.gridContainer} style={{height: gridHeight, width: gridWidth}}>
+              {tiles}
+            </div>
+          </div>
+        )
     }
   }
 }

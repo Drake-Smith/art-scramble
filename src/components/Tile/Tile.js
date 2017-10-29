@@ -6,17 +6,21 @@ class Tile extends React.Component {
   constructor(props) {
     super(props)
 
-    this.handleImgResize = this.handleImgResize.bind(this)
   }
 
-  handleImgResize() {      
-  }
-  //<div style={{'float': 'left', 'display': 'inlineBlock'}}>
-  //    </div>
   render() {
+    const style = {
+      'height': this.props.height,
+      'width': this.props.width,
+      'float': 'left',
+      'display': 'inline-block'
+    }
+    // <div style={style}>
+    // </div>
     return (
-      <img className={styles.tileImg} src={this.props.url} onClick={this.props.onClick}
-      />
+        <div style={style}>
+          <img className={styles.tileImg} src={this.props.url} onClick={this.props.onClick} />  
+        </div>
     )
   }
 }

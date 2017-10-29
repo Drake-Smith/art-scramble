@@ -1,3 +1,14 @@
+.pageBody {
+  width: 100vw;
+  height: 100vh;
+  background: #e55454;
+}
 .gridContainer {
-  margin: 0 auto;
+  margin: 20px auto;
+  padding: 40px 20px;
+}
+.loadingMsg {
+  text-align: center;
+  margin-top: 0;
+  padding: 15px;
 }
