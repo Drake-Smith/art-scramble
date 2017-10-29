@@ -1,28 +1,20 @@
-import React from 'react';
+import React  from 'react';
 import styles from './Tile.scss';
 
+const Tile = (props) => {
 
-class Tile extends React.Component {
-  constructor(props) {
-    super(props)
-
+  //additional styling
+  //set height and width from props
+  const styleObj = {
+    height: props.height,
+    width: props.width,
   }
 
-  render() {
-    const style = {
-      'height': this.props.height,
-      'width': this.props.width,
-      'float': 'left',
-      'display': 'inline-block'
-    }
-    // <div style={style}>
-    // </div>
-    return (
-        <div style={style}>
-          <img className={styles.tileImg} src={this.props.url} onClick={this.props.onClick} />  
-        </div>
-    )
-  }
+  return (
+    <div className={styles.imgContainer} style={styleObj}>
+      <img className={styles.tileImg} src={props.url} onClick={props.onClick} alt={'Painting'} />  
+    </div>
+  )
 }
 
 export default Tile;

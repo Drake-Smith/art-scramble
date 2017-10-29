@@ -1,13 +1,10 @@
 .panelContainer {
-    width: 300px;
-    height: 300px;
-    margin: 40px 25px;
-    float: right;
-    padding: 40px 20px;
-    background: #272728;
-}
-.panelContent {
-
+  width: 300px;
+  height: 300px;
+  margin: 40px 25px;
+  float: right;
+  padding: 40px 20px;
+  background: #272728;
 }
 .paintTitle {
   color: white;
@@ -17,6 +14,15 @@
 .infoLine {
   text-align: center;
   color: white;
+  font-size: 14px;
+}
+
+.nextPaintingBtn {
+  height: 40px;
+  width: 200px;
+  display: block;
+  text-align: center;
+  margin: 25px auto 0;
   font-size: 14px;
 }
 
@@ -31,11 +37,4 @@
   }
 }
 
-.nextPaintingBtn {
-    height: 40px;
-    width: 200px;
-    display: block;
-    text-align: center;
-    margin: 25px auto 0;
-    font-size: 14px;
-}
+

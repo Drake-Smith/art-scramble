@@ -1,8 +1,7 @@
-import React from 'react';
-//import styles from './App.scss';
+import React  from 'react';
 
 import Header from './../Header/Header'
-import Grid from './../Grid/Grid'
+import Grid   from './../Grid/Grid'
 
 class App extends React.Component {
   render() {

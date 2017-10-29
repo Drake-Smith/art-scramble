@@ -1,9 +1,10 @@
 export const isEmpty = (obj) => {
-    for(var key in obj) {
-        if(obj.hasOwnProperty(key))
-            return false;
+  for(var key in obj) {
+    if(obj.hasOwnProperty(key)) {
+      return false;
     }
-    return true;
+  }
+  return true;
 };
 
 export const swapKeyValues = (obj1, obj2, key) => {

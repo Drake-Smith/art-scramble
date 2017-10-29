@@ -1,1 +1,4 @@
-Create-React-App, by default, has no special CSS configurations so that you can customize it as you see fit. This is a Create-React-App project setup with SCSS and CSS Modules added.
+#Art Scramble
+Unscramble paintings to the right order.
+Built in React, and uses the REST API provided by the Rijksmuseum in Amsterdam, Netherlands.
+by Drake Smith
