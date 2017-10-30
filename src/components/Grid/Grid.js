@@ -221,6 +221,7 @@ class Grid extends React.Component {
 
     //update the state, and check board if correct position
     this.setState({
+      winner: this.state.winner ? !this.state.winner : this.state.winner,
       selectedTiles: [],
       tiles: updatedTiles
     }, this.checkBoardTiles);
