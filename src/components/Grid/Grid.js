@@ -26,7 +26,8 @@ class Grid extends React.Component {
       selectedTiles: [],
       tiles: [],
       paintingInfo: {},
-      winner: false
+      winner: false,
+      chooser: GET_NEXT_PAINTING(COLLECTION) //a function that randomly selects painting from array
     }
 
     this.grabPaintingInfo = this.grabPaintingInfo.bind(this);
@@ -43,9 +44,9 @@ class Grid extends React.Component {
 
   grabPaintingInfo() {
     //random painting getter function
-    const chooser = GET_NEXT_PAINTING(COLLECTION);
+
     //get painting key
-    const paintingKey = chooser();
+    const paintingKey = this.state.chooser();
 
     //form API URLs
     const infoURL = BASE_URL + paintingKey + GET_INFO_URL;
