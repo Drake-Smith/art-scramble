@@ -1,8 +1,6 @@
-import { API_KEY } from './api_key.js';
-
 export const BASE_URL = 'https://www.rijksmuseum.nl/api/en/collection/';
-export const GET_TILES_URL = '/tiles?key=' + API_KEY + '&format=json';
-export const GET_INFO_URL = '?key=' + API_KEY + '&format=json';
+export const GET_TILES_URL = '/tiles?key=' + process.env.REACT_APP_API_KEY + '&format=json';
+export const GET_INFO_URL = '?key=' + process.env.REACT_APP_API_KEY + '&format=json';
 
 export const COLLECTION = ['SK-A-4691', 'SK-A-4717', 'SK-A-3276', 'SK-A-3066']; // implement multiple in future
 
